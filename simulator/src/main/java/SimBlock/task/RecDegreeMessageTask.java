@@ -15,8 +15,6 @@
  */
 package SimBlock.task;
 
-import static SimBlock.simulator.Network.*;
-
 import SimBlock.node.Node;
 
 public class RecDegreeMessageTask extends AbstractMessageTask {
