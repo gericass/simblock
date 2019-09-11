@@ -28,8 +28,12 @@ import java.util.Set;
 import SimBlock.node.routingTable.AbstractRoutingTable;
 import SimBlock.task.AbstractMessageTask;
 import SimBlock.task.BlockMessageTask;
+import SimBlock.task.ChangeNeighborTask;
+import SimBlock.task.DegreeMessageTask;
 import SimBlock.task.InvMessageTask;
+import SimBlock.task.LocaliserTask;
 import SimBlock.task.MiningTask;
+import SimBlock.task.RecDegreeMessageTask;
 import SimBlock.task.RecMessageTask;
 import SimBlock.task.Task;
 public class Node {
@@ -46,6 +50,8 @@ public class Node {
 	private boolean sendingBlock = false;
 	private ArrayList<RecMessageTask> messageQue = new ArrayList<RecMessageTask>();
 	private Set<Block> downloadingBlocks = new HashSet<Block>();
+
+	private Localiser localiser = null;
 
 	private long processingTime = 2;
 
@@ -71,6 +77,7 @@ public class Node {
 	public boolean addNeighbor(Node node){ return this.routingTable.addNeighbor(node); }
 	public boolean removeNeighbor(Node node){ return this.routingTable.removeNeighbor(node); }
 	public ArrayList<Node> getNeighbors(){ return this.routingTable.getNeighbors(); }
+	public ArrayList<Node> getOutBoundNodes(){ return this.routingTable.getOutboundNodes(); }
 	public AbstractRoutingTable getRoutingTable(){ return this.routingTable; }
 	public void setnConnection(int nConnection){ this.routingTable.setnConnection(nConnection); }
 	public int getnConnection(){ return this.routingTable.getnConnection(); }
@@ -78,6 +85,11 @@ public class Node {
 
 	public void joinNetwork(){
 		this.routingTable.initTable();
+	}
+
+	public void startLocaliser() {
+		LocaliserTask task = new LocaliserTask(this);
+		putTask(task);
 	}
 
 	public void genesisBlock(){
@@ -191,6 +203,59 @@ public class Node {
 			downloadingBlocks.remove(block);
 			this.receiveBlock(block);
 		}
+
+		// j, kが受け取るメッセージ
+		if(message instanceof RecDegreeMessageTask) {
+			int neighborsSize = this.routingTable.getNeighbors().size();
+			DegreeMessageTask task = new DegreeMessageTask(this, message.getFrom(), neighborsSize);
+			if(((RecDegreeMessageTask) message).estimateEnabled()) {
+				RecDegreeMessageTask t = (RecDegreeMessageTask) message;
+				task.setEstimateCost(getLatency(this.region, t.getKRegion()));
+			}
+			putTask(task);
+		}
+
+		if(message instanceof ChangeNeighborTask) {
+			ChangeNeighborTask task = (ChangeNeighborTask) message;
+			routingTable.removeNeighbor(task.getFrom());
+			routingTable.addNeighbor(task.getDestination());
+		}
+
+		// j, kからの返信
+		if(message instanceof DegreeMessageTask) {
+			DegreeMessageTask degreeMessage = (DegreeMessageTask) message;
+			if(degreeMessage.getEstimateCost() == null) {
+				localiser.setdk(degreeMessage.getDegree());
+			} else {
+				localiser.setdj(degreeMessage.getDegree(), degreeMessage.getEstimateCost());
+			}
+			if(localiser.calculatable()) {
+				Node j = localiser.getJ();
+				Node k = localiser.getK();
+				changeNeighbor(j,k);
+			}
+		}
+	}
+
+	private void changeNeighbor(Node to ,Node destination) {
+		double random = Math.random();
+		if(random >= localiser.calcP()) {
+			localiser = null;
+			return;
+		}
+		ChangeNeighborTask task = new ChangeNeighborTask(this, to, destination);
+		putTask(task);
+	}
+
+	public void sendDegreeRequest(Node j, Node k) {
+		long degree = this.routingTable.getNeighbors().size();
+		localiser = new Localiser(degree, j, k);
+		localiser.setcij(getLatency(this.region, j.region));
+		RecDegreeMessageTask taskJ = new RecDegreeMessageTask(this, j);
+		taskJ.setEstimatable(k.region);
+		RecDegreeMessageTask taskK = new RecDegreeMessageTask(this, k);
+		putTask(taskJ);
+		putTask(taskK);
 	}
 
 	// send a block to the sender of the next queued recMessage

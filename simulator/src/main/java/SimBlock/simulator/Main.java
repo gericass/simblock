@@ -235,6 +235,9 @@ public class Main {
 		for(Node node: getSimulatedNodes()){
 			node.joinNetwork();
 		}
+		for(Node node: getSimulatedNodes()){
+			node.startLocaliser();
+		}
 
 	}
 

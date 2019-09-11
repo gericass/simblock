@@ -37,6 +37,10 @@ public class BitcoinCoreTable extends AbstractRoutingTable {
 		return neighbors;
 	}
 	
+	public ArrayList<Node> getOutboundNodes() {
+		return outbound;
+	}
+
 	// set nConnection random nodes to table
 	public void initTable(){
 	    ArrayList<Integer> candidates = new ArrayList<Integer>();
