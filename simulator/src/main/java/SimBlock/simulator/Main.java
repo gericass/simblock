@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import SimBlock.localiser.TaskExecutor;
 import SimBlock.node.Block;
 import SimBlock.node.Node;
 import SimBlock.task.MiningTask;
@@ -82,6 +83,19 @@ public class Main {
 		printRegion();
 
 		constructNetworkWithAllNode(NUM_OF_NODES);
+
+		int p = 0;
+		while(p<200) {
+			p++;
+			for(Node node: getSimulatedNodes()){
+				node.startLocaliser();
+			}
+		}
+		while(TaskExecutor.getTask() != null) {
+			TaskExecutor.runTask();
+		}
+		
+		Timer.setCurrentTime(0l);
 
 		getSimulatedNodes().get(0).genesisBlock();
 
@@ -164,6 +178,7 @@ public class Main {
 		long end = System.currentTimeMillis();
 		time1 += end -start;
 		System.out.println(time1);
+		System.out.println(getCurrentTime());
 
 	}
 
@@ -235,10 +250,6 @@ public class Main {
 		for(Node node: getSimulatedNodes()){
 			node.joinNetwork();
 		}
-		for(Node node: getSimulatedNodes()){
-			node.startLocaliser();
-		}
-
 	}
 
 	public static void writeGraph(int j){

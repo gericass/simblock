@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import SimBlock.localiser.TaskExecutor;
+import SimBlock.localiser.Localiser;
 import SimBlock.node.routingTable.AbstractRoutingTable;
 import SimBlock.task.AbstractMessageTask;
 import SimBlock.task.BlockMessageTask;
@@ -89,7 +91,7 @@ public class Node {
 
 	public void startLocaliser() {
 		LocaliserTask task = new LocaliserTask(this);
-		putTask(task);
+		TaskExecutor.putTask(task);
 	}
 
 	public void genesisBlock(){
@@ -171,7 +173,6 @@ public class Node {
 
 	public void receiveMessage(AbstractMessageTask message){
 		Node from = message.getFrom();
-
 		if(message instanceof InvMessageTask){
 			Block block = ((InvMessageTask) message).getBlock();
 			if(!this.orphans.contains(block) && !this.downloadingBlocks.contains(block)){
@@ -212,7 +213,7 @@ public class Node {
 				RecDegreeMessageTask t = (RecDegreeMessageTask) message;
 				task.setEstimateCost(getLatency(this.region, t.getKRegion()));
 			}
-			putTask(task);
+			TaskExecutor.putTask(task);
 		}
 
 		if(message instanceof ChangeNeighborTask) {
@@ -243,8 +244,9 @@ public class Node {
 			localiser = null;
 			return;
 		}
+		localiser = null;
 		ChangeNeighborTask task = new ChangeNeighborTask(this, to, destination);
-		putTask(task);
+		TaskExecutor.putTask(task);
 	}
 
 	public void sendDegreeRequest(Node j, Node k) {
@@ -254,8 +256,8 @@ public class Node {
 		RecDegreeMessageTask taskJ = new RecDegreeMessageTask(this, j);
 		taskJ.setEstimatable(k.region);
 		RecDegreeMessageTask taskK = new RecDegreeMessageTask(this, k);
-		putTask(taskJ);
-		putTask(taskK);
+		TaskExecutor.putTask(taskJ);
+		TaskExecutor.putTask(taskK);
 	}
 
 	// send a block to the sender of the next queued recMessage

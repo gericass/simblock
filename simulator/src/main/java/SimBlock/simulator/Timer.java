@@ -89,4 +89,6 @@ public class Timer {
 	}
 	
 	public static long getCurrentTime(){return currentTime;}
+
+	public static void setCurrentTime(long time){currentTime = time;}
 }

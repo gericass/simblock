@@ -93,7 +93,7 @@ public class Simulator {
 	public static void printPropagation(Block block,LinkedHashMap<Integer, Long> propagation){
 		System.out.println(block + ":" + block.getHeight());
 		for(Map.Entry<Integer, Long> timeEntry : propagation.entrySet()){
-			System.out.println(timeEntry.getKey() + "," + timeEntry.getValue());
+			//System.out.println(timeEntry.getKey() + "," + timeEntry.getValue());
 		}
 		System.out.println();
 	}

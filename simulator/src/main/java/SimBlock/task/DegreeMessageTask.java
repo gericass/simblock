@@ -27,6 +27,11 @@ public class DegreeMessageTask extends AbstractMessageTask {
         this.degree = degree;
     }
     
+    @Override
+    public long getInterval() {
+        return 1;
+    }
+
     public void setEstimateCost(Long cost) {
         this.estimateCost = cost;
     }

@@ -11,6 +11,11 @@ public class ChangeNeighborTask extends AbstractMessageTask {
         this.destination = destination;
     }
 
+    @Override
+    public long getInterval() {
+        return 1;
+    }
+
     public Node getDestination() {
         return destination;
     }

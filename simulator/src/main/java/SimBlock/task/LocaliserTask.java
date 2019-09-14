@@ -11,7 +11,7 @@ public class LocaliserTask implements Task {
 	public LocaliserTask(Node i) {
 		this.i = i;
         // TODO インターバル調整
-		this.interval = 100l;
+		this.interval = 1;
 	}
 	
 	@Override
@@ -21,6 +21,9 @@ public class LocaliserTask implements Task {
 
 	@Override
 	public void run() {
+		if(i.getOutBoundNodes().size() < 1 || i.getNeighbors().size() < 1) {
+			return;
+		}
         Random rand = new Random();
         int outBoundIndex = rand.nextInt(i.getOutBoundNodes().size());
         Node j = i.getOutBoundNodes().get(outBoundIndex);

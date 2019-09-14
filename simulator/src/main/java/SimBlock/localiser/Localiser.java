@@ -1,4 +1,6 @@
-package SimBlock.node;
+package SimBlock.localiser;
+
+import SimBlock.node.Node;;
 
 public class Localiser {
 

@@ -26,6 +26,11 @@ public class RecDegreeMessageTask extends AbstractMessageTask {
 		super(from, to);
 	}
 
+	@Override
+    public long getInterval() {
+        return 1;
+    }
+
 	public void setEstimatable(int region) {
 		this.enableEstimate = true;
 		this.kRegion = region;
