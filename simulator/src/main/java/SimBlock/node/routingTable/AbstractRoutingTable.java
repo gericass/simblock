@@ -21,7 +21,7 @@ import SimBlock.node.Node;
 
 public abstract class AbstractRoutingTable {
 	private Node selfNode;
-	private int nConnection = 80;
+	private int nConnection = 8;
 
 	public AbstractRoutingTable(Node selfNode){
 		this.selfNode = selfNode;

@@ -64,10 +64,10 @@ public class BitcoinCoreTable extends AbstractRoutingTable {
 	// add node to outbound and add selfnode to node's inbound 
 	// if # of nodes in outbound is less than nConnection
 	public boolean addNeighbor(Node node){
-		if(node == getSelfNode() || this.outbound.contains(node) || this.inbound.contains(node)){ // this.outbound.size() >= this.getnConnection()
+		if(node == getSelfNode() || this.outbound.contains(node) || this.inbound.contains(node) || this.outbound.size() >= this.getnConnection()){ // this.outbound.size() >= this.getnConnection()
 			return false;
 		}else if(this.outbound.add(node) && node.getRoutingTable().addInbound(getSelfNode())){
-			printAddLink(node);
+			printAddLink(node);	
 			return true;
 		}else{
 			return false;
@@ -77,7 +77,7 @@ public class BitcoinCoreTable extends AbstractRoutingTable {
 	// remove node to outbount and remove selfnode to node's inbount
 	public boolean removeNeighbor(Node node){
 		if(this.outbound.remove(node) && node.getRoutingTable().removeInbound(getSelfNode())){
-			printRemoveLink(node);
+			//printRemoveLink(node);
 			return true;
 		}
 		return false;
@@ -92,7 +92,7 @@ public class BitcoinCoreTable extends AbstractRoutingTable {
 	}
 	public boolean removeInbound(Node from){
 		if(this.inbound.remove(from)){
-			printRemoveLink(from);
+			//printRemoveLink(from);
 			return true;
 		}
 		return false;

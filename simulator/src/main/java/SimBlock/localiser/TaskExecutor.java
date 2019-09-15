@@ -2,6 +2,7 @@ package SimBlock.localiser;
 
 import java.util.Stack;
 
+import SimBlock.simulator.Timer;
 import SimBlock.task.Task;
 
 
@@ -11,6 +12,7 @@ public class TaskExecutor {
 	
 	public static void runTask(){
 		if(taskStack.size() > 0){
+			Timer.setCurrentTime(Timer.getCurrentTime() + 1);
 			Task currentTask = taskStack.pop();
 			currentTask.run();
 		}

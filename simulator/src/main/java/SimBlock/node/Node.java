@@ -219,9 +219,9 @@ public class Node {
 
 		if(message instanceof ChangeNeighborTask) {
 			ChangeNeighborTask task = (ChangeNeighborTask) message;
-			if(routingTable.addNeighbor(task.getDestination())) {
-				task.getFrom().getRoutingTable().removeNeighbor(this);
-			}
+			// addNeighborkかremoveNeighborで条件分岐
+			addNeighbor(task.getDestination());	
+			task.getFrom().removeNeighbor(this);
 		}
 
 		// j, kからの返信
@@ -249,6 +249,7 @@ public class Node {
 		localiser = null;
 		ChangeNeighborTask task = new ChangeNeighborTask(this, to, destination);
 		TaskExecutor.putTask(task);
+		
 	}
 
 	public void sendDegreeRequest(Node j, Node k) {

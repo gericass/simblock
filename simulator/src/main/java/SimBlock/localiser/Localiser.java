@@ -6,7 +6,7 @@ public class Localiser {
 
     private static final int w = 10;
     private static final double T = 1;
-    public static final int numOfTrials = 2000;
+    public static final int numOfTrials = 500;
 
     private Node j;
     private Node k;

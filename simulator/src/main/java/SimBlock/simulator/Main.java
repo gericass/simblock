@@ -86,8 +86,6 @@ public class Main {
 		while(TaskExecutor.getTask() != null) {
 			TaskExecutor.runTask();
 		}
-		
-		Timer.setCurrentTime(0l);
 	}
 
 	private static void activateBlockChain() {
@@ -204,7 +202,7 @@ public class Main {
 		activateBlockChain();
 
 		long end = System.currentTimeMillis();
-		time1 += end -start;
+		time1 += end - start;
 		System.out.println(time1);
 		System.out.println(getCurrentTime());
 	}
