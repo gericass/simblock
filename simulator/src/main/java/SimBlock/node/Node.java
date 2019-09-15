@@ -220,8 +220,9 @@ public class Node {
 		if(message instanceof ChangeNeighborTask) {
 			ChangeNeighborTask task = (ChangeNeighborTask) message;
 			// addNeighborkかremoveNeighborで条件分岐
-			addNeighbor(task.getDestination());	
-			task.getFrom().removeNeighbor(this);
+			if(addNeighbor(task.getDestination())) {
+				task.getFrom().removeNeighbor(this);
+			}
 		}
 
 		// j, kからの返信

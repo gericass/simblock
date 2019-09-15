@@ -191,7 +191,7 @@ public class Main {
 
 		constructNetworkWithAllNode(NUM_OF_NODES);
 
-		activateLocaliser(true);
+		activateLocaliser(false);
 
 		printDegree();
 
