@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import SimBlock.localiser.Localiser;
 import SimBlock.localiser.TaskExecutor;
 import SimBlock.node.Block;
 import SimBlock.node.Node;
@@ -73,19 +74,10 @@ public class Main {
 		}
 	}
 
-	public static void main(String[] args){
-		long start = System.currentTimeMillis();
-		setTargetInterval(INTERVAL);
-
-		OUT_JSON_FILE.print("["); //start json format
-		OUT_JSON_FILE.flush();
-
-		printRegion();
-
-		constructNetworkWithAllNode(NUM_OF_NODES);
-
+	private static void activateLocaliser(boolean enable) {
+		if(!enable) return;
 		int p = 0;
-		while(p<200) {
+		while(p< Localiser.numOfTrials) {
 			p++;
 			for(Node node: getSimulatedNodes()){
 				node.startLocaliser();
@@ -96,9 +88,9 @@ public class Main {
 		}
 		
 		Timer.setCurrentTime(0l);
+	}
 
-		getSimulatedNodes().get(0).genesisBlock();
-
+	private static void activateBlockChain() {
 		int j=1;
 		while(getTask() != null){
 
@@ -110,7 +102,6 @@ public class Main {
 			}
 			runTask();
 		}
-
 
 		printAllPropagation();
 
@@ -175,12 +166,50 @@ public class Main {
 		OUT_JSON_FILE.print("}");
 		OUT_JSON_FILE.print("]"); //end json format
 		OUT_JSON_FILE.close();
+	}
+
+	private static void printDegree() {
+		int max = 0;
+		int maxInbound = 0;
+		for(Node n : getSimulatedNodes()) {
+			if(n.getNeighbors().size() > max){
+				max =  n.getNeighbors().size();
+			}	
+			if(n.getInBoundNodes().size() > maxInbound) {
+				maxInbound = n.getInBoundNodes().size();
+			}
+		}
+		System.out.println("max degree: " + max);
+		System.out.println("max inbound: " + maxInbound);
+	}
+
+	public static void main(String[] args){
+		setTargetInterval(INTERVAL);
+
+		OUT_JSON_FILE.print("["); //start json format
+		OUT_JSON_FILE.flush();
+
+		printRegion();
+
+		constructNetworkWithAllNode(NUM_OF_NODES);
+
+		activateLocaliser(true);
+
+		printDegree();
+
+		long start = System.currentTimeMillis();
+
+		getSimulatedNodes().get(0).genesisBlock();
+
+		activateBlockChain();
+
 		long end = System.currentTimeMillis();
 		time1 += end -start;
 		System.out.println(time1);
 		System.out.println(getCurrentTime());
-
 	}
+
+
 
 
 	//TODO　以下の初期生成はシナリオを読み込むようにする予定

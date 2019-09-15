@@ -80,6 +80,7 @@ public class Node {
 	public boolean removeNeighbor(Node node){ return this.routingTable.removeNeighbor(node); }
 	public ArrayList<Node> getNeighbors(){ return this.routingTable.getNeighbors(); }
 	public ArrayList<Node> getOutBoundNodes(){ return this.routingTable.getOutboundNodes(); }
+	public ArrayList<Node> getInBoundNodes(){ return this.routingTable.getInboundNodes(); }
 	public AbstractRoutingTable getRoutingTable(){ return this.routingTable; }
 	public void setnConnection(int nConnection){ this.routingTable.setnConnection(nConnection); }
 	public int getnConnection(){ return this.routingTable.getnConnection(); }
@@ -218,8 +219,9 @@ public class Node {
 
 		if(message instanceof ChangeNeighborTask) {
 			ChangeNeighborTask task = (ChangeNeighborTask) message;
-			routingTable.removeNeighbor(task.getFrom());
-			routingTable.addNeighbor(task.getDestination());
+			if(routingTable.addNeighbor(task.getDestination())) {
+				task.getFrom().getRoutingTable().removeNeighbor(this);
+			}
 		}
 
 		// j, kからの返信

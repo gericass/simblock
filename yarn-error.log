@@ -1,0 +1,31 @@
+Arguments: 
+  /usr/local/Cellar/node/12.3.1/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js serve
+
+PATH: 
+  /Users/keita/.pyenv/shims:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin::/Users/keita/go/src/github.com/rubenv/sql-migrate/sql-migrate:/Users/keita/go/bin:/Users/keita/.pyenv/shims:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/Users/keita/go/src/github.com/golang/protobuf
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  12.3.1
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "/Users/keita/Documents/大学/research/simblock"
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:40048:15
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13

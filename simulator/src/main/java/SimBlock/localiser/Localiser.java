@@ -1,11 +1,12 @@
 package SimBlock.localiser;
 
-import SimBlock.node.Node;;
+import SimBlock.node.Node;
 
 public class Localiser {
 
-    private static final int w = 50;
-    private static final int T = 1;
+    private static final int w = 10;
+    private static final double T = 1;
+    public static final int numOfTrials = 2000;
 
     private Node j;
     private Node k;

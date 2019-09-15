@@ -21,7 +21,7 @@ import SimBlock.node.Node;
 
 public abstract class AbstractRoutingTable {
 	private Node selfNode;
-	private int nConnection = 8;
+	private int nConnection = 80;
 
 	public AbstractRoutingTable(Node selfNode){
 		this.selfNode = selfNode;
@@ -32,6 +32,7 @@ public abstract class AbstractRoutingTable {
 	public abstract void initTable();
 	public abstract ArrayList<Node> getNeighbors();
 	public abstract ArrayList<Node> getOutboundNodes();
+	public abstract ArrayList<Node> getInboundNodes();
 	public abstract boolean addNeighbor(Node node);
 	public abstract boolean removeNeighbor(Node node);
 
