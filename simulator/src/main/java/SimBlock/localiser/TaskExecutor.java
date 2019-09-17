@@ -2,7 +2,6 @@ package SimBlock.localiser;
 
 import java.util.Stack;
 
-import SimBlock.simulator.Timer;
 import SimBlock.task.Task;
 
 

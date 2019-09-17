@@ -58,6 +58,7 @@ public class Main {
 
 	public static PrintWriter OUT_JSON_FILE;
 	public static PrintWriter STATIC_JSON_FILE;
+	public static PrintWriter  TIME_JSON_FILE; 
 	static {
 		try{
 			OUT_JSON_FILE = new PrintWriter(new BufferedWriter(new FileWriter(new File(OUT_FILE_URI.resolve("./output.json")))));
@@ -69,6 +70,14 @@ public class Main {
 	static {
 		try{
 			STATIC_JSON_FILE = new PrintWriter(new BufferedWriter(new FileWriter(new File(OUT_FILE_URI.resolve("./static.json")))));
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	static {
+		try{
+			TIME_JSON_FILE = new PrintWriter(new BufferedWriter(new FileWriter(new File(OUT_FILE_URI.resolve("./time.json")), true)));
 		} catch (IOException e){
 			e.printStackTrace();
 		}
@@ -187,11 +196,13 @@ public class Main {
 		OUT_JSON_FILE.print("["); //start json format
 		OUT_JSON_FILE.flush();
 
+		TIME_JSON_FILE.flush();
+
 		printRegion();
 
 		constructNetworkWithAllNode(NUM_OF_NODES);
 
-		activateLocaliser(false);
+		activateLocaliser(true);
 
 		printDegree();
 
@@ -205,6 +216,8 @@ public class Main {
 		time1 += end - start;
 		System.out.println(time1);
 		System.out.println(getCurrentTime());
+		TIME_JSON_FILE.print("{\"system_time\": " + String.valueOf(time1) + ", \"timestamp\": " + String.valueOf(getCurrentTime()) + "}\n");
+		TIME_JSON_FILE.close();
 	}
 
 

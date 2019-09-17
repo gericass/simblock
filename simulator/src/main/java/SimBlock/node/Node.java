@@ -76,7 +76,7 @@ public class Node {
 	public void setRegion(int region){ this.region = region; }
 	public int getRegion(){ return this.region; }
 
-	public boolean addNeighbor(Node node){ return this.routingTable.addNeighbor(node); }
+	public boolean addNeighbor(Node node, boolean isInit){ return this.routingTable.addNeighbor(node, isInit); }
 	public boolean removeNeighbor(Node node){ return this.routingTable.removeNeighbor(node); }
 	public ArrayList<Node> getNeighbors(){ return this.routingTable.getNeighbors(); }
 	public ArrayList<Node> getOutBoundNodes(){ return this.routingTable.getOutboundNodes(); }
@@ -212,7 +212,7 @@ public class Node {
 			DegreeMessageTask task = new DegreeMessageTask(this, message.getFrom(), neighborsSize);
 			if(((RecDegreeMessageTask) message).estimateEnabled()) {
 				RecDegreeMessageTask t = (RecDegreeMessageTask) message;
-				task.setEstimateCost(getLatency(this.region, t.getKRegion()));
+				task.setEstimateCost(Localiser.getCost(this.getRegion(), t.getKRegion()));
 			}
 			TaskExecutor.putTask(task);
 		}
@@ -220,9 +220,9 @@ public class Node {
 		if(message instanceof ChangeNeighborTask) {
 			ChangeNeighborTask task = (ChangeNeighborTask) message;
 			// addNeighborkかremoveNeighborで条件分岐
-			if(addNeighbor(task.getDestination())) {
-				task.getFrom().removeNeighbor(this);
-			}
+			if(addNeighbor(task.getDestination(), false)){
+				task.getFrom().removeNeighbor(this);	
+			}			
 		}
 
 		// j, kからの返信
@@ -256,7 +256,7 @@ public class Node {
 	public void sendDegreeRequest(Node j, Node k) {
 		long degree = this.routingTable.getNeighbors().size();
 		localiser = new Localiser(degree, j, k);
-		localiser.setcij(getLatency(this.region, j.region));
+		localiser.setcij(Localiser.getCost(this.region, j.region));
 		RecDegreeMessageTask taskJ = new RecDegreeMessageTask(this, j);
 		taskJ.setEstimatable(k.region);
 		RecDegreeMessageTask taskK = new RecDegreeMessageTask(this, k);

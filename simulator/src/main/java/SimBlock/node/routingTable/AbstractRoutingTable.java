@@ -33,7 +33,7 @@ public abstract class AbstractRoutingTable {
 	public abstract ArrayList<Node> getNeighbors();
 	public abstract ArrayList<Node> getOutboundNodes();
 	public abstract ArrayList<Node> getInboundNodes();
-	public abstract boolean addNeighbor(Node node);
+	public abstract boolean addNeighbor(Node node, boolean init);
 	public abstract boolean removeNeighbor(Node node);
 
 	public boolean addInbound(Node from){return false;};

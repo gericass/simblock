@@ -47,7 +47,7 @@ public class Simulator {
 		node.joinNetwork();
 		addNode(node);
 		for(Node existingNode: SimulatedNodes){
-			existingNode.addNeighbor(node);
+			existingNode.addNeighbor(node, false);
 		}
 	}
 	
