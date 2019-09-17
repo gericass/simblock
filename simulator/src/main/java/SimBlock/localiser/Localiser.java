@@ -6,7 +6,7 @@ import SimBlock.simulator.Network;
 public class Localiser {
 
     private static final int w = 10;
-    private static final double T = 0.5;
+    private static final double T = 1;
     public static final int numOfTrials = 500;
 
     private Node j;
@@ -53,7 +53,7 @@ public class Localiser {
     }
 
     private long calcE() {
-        long e = 2 * w * (dk - di + 1) + cjk + cij;
+        long e = 2 * w * (dk - di + 1) + cjk - cij;
         return e;
     }
 

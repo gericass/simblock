@@ -210,7 +210,7 @@ public class Main {
 
 		getSimulatedNodes().get(0).genesisBlock();
 
-		activateBlockChain();
+		//activateBlockChain();
 
 		long end = System.currentTimeMillis();
 		time1 += end - start;
