@@ -221,12 +221,12 @@ public class Node {
 			ChangeNeighborTask task = (ChangeNeighborTask) message;
 			// addNeighborkかremoveNeighborで条件分岐
 			if(addNeighbor(task.getDestination(), false)){
-				System.out.println("i: " + task.getFrom().getNodeID());
-				System.out.println("j: " + this.getNodeID());
-				System.out.println("k: " + task.getDestination().getNodeID());
-				System.out.println("c(i,j): " + getLatency(task.getFrom().region, this.getRegion()));
-				System.out.println("c(j,k): " + getLatency(this.region, task.getDestination().getRegion()));
-				System.out.println();
+				//System.out.println("i: " + task.getFrom().getNodeID());
+				//System.out.println("j: " + this.getNodeID());
+				//System.out.println("k: " + task.getDestination().getNodeID());
+				//System.out.println("c(i,j): " + getLatency(task.getFrom().region, this.getRegion()));
+				//System.out.println("c(j,k): " + getLatency(this.region, task.getDestination().getRegion()));
+				//System.out.println();
 				task.getFrom().removeNeighbor(this);	
 			}			
 		}

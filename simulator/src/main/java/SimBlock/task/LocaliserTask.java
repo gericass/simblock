@@ -28,7 +28,10 @@ public class LocaliserTask implements Task {
         int outBoundIndex = rand.nextInt(i.getOutBoundNodes().size());
         Node j = i.getOutBoundNodes().get(outBoundIndex);
         int neighborIndex = rand.nextInt(i.getNeighbors().size());
-        Node k = i.getNeighbors().get(neighborIndex);
+		Node k = i.getNeighbors().get(neighborIndex);
+		if(i.getNeighbors().size() <= 1) {
+			return;
+		}
         while(j.equals(k)) {
             neighborIndex = rand.nextInt(i.getNeighbors().size());
             k = i.getNeighbors().get(neighborIndex);

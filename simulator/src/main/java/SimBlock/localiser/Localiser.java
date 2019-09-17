@@ -1,13 +1,14 @@
 package SimBlock.localiser;
 
 import SimBlock.node.Node;
+import SimBlock.settings.SimulationConfiguration;
 import SimBlock.simulator.Network;
 
 public class Localiser {
 
-    private static final int w = 10;
+    private static final int w = 2;
     private static final double T = 1;
-    public static final int numOfTrials = 500;
+    public static final int numOfTrials = 1000;
 
     private Node j;
     private Node k;
@@ -24,11 +25,15 @@ public class Localiser {
         this.k = k;
     }
 
+    private static long getDelay(long band) {
+        return SimulationConfiguration.BLOCKSIZE * 8 / (band/1000); 
+    }
+
     public static long getCost(int j, int k) {
         long band1 = Network.getBandwidth(j, k);
         long band2 = Network.getBandwidth(k, j);
         long latency = Network.getLatency(j, k);
-        return latency;
+        return latency * 2 + getDelay(band1) + getDelay(band2);
     }
 
     public void setdj(long degree, long cost) {
